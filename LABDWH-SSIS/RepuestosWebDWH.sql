@@ -198,6 +198,8 @@ GO
 	ALTER TABLE Fact.Orden ADD Total_Orden [UDT_Decimal12.2]
 	ALTER TABLE Fact.Orden ADD Cantidad [UDT_INT]
 	ALTER TABLE Fact.Orden ADD NombreStatus [UDT_VarcharMediano]
+	ALTER TABLE Fact.Orden ADD [FechaPrueba] DATETIME NULL
+	ALTER TABLE Fact.Orden ADD [FechaModificacionSource] DATETIME NULL
 
 	--DimFecha	
 	ALTER TABLE Dimension.Fecha ADD [Date] DATE NOT NULL
@@ -280,7 +282,9 @@ GO
 	 DescripcionCategoria,
 	 NombreLinea,
 	 DescripcionLinea,
-	 [FechaInicioValidez]
+	 [FechaInicioValidez],
+	 ID_Batch,
+	 ID_SourceSystem
 	)
 	SELECT P.ID_Partes, 
 			C.ID_Categoria, 
@@ -292,7 +296,9 @@ GO
 			C.DescripcionCategoria,
 			L.NombreLinea,
 			L.DescripcionLinea,
-			CAST('2020-01-01' AS DATETIME) AS FechaInicioValidez
+			CAST('2020-01-01' AS DATETIME) AS FechaInicioValidez,
+			NULL as ID_Batch,
+			'RepuestosWeb' as ID_SourceSystem
 	FROM RepuestosWeb.dbo.Partes P
 		INNER JOIN RepuestosWeb.dbo.Categoria C ON(P.ID_Categoria = C.ID_Categoria)
 		INNER JOIN RepuestosWeb.dbo.Linea L ON (C.ID_Linea = L.ID_Linea);
@@ -309,7 +315,9 @@ GO
 	 [CodigoPostal], 
 	 [NombreRegion], 
 	 [NombrePais],
-	 [FechaInicioValidez]
+	 [FechaInicioValidez],
+	 ID_Batch,
+	 ID_SourceSystem
 	)
 	SELECT  C.ID_Ciudad as IDGeografia,
 			C.ID_Ciudad,
@@ -319,7 +327,9 @@ GO
 			C.CodigoPostal,
 			R.Nombre as NombreRegion,
 			P.Nombre as NombrePais,
-			CAST('2020-01-01' AS DATETIME) AS FechaInicioValidez
+			CAST('2020-01-01' AS DATETIME) AS FechaInicioValidez,
+			NULL as ID_Batch,
+			'RepuestosWeb' as ID_SourceSystem
 	FROM RepuestosWeb.dbo.Ciudad C
 		INNER JOIN RepuestosWeb.dbo.Region R ON(C.ID_Region = R.ID_Region)
 		INNER JOIN RepuestosWeb.dbo.Pais P ON(R.ID_Pais = P.ID_Pais);
@@ -337,7 +347,9 @@ GO
 	 Genero,
 	 Correo_Electronico,
 	 FechaNacimiento,
-	 [FechaInicioValidez]
+	 [FechaInicioValidez],
+	 ID_Batch,
+	 ID_SourceSystem
 	)
 	SELECT C.ID_Cliente, 
 			C.PrimerNombre, 
@@ -347,7 +359,9 @@ GO
 			C.Genero,
 			C.Correo_Electronico,
 			C.FechaNacimiento,
-			CAST('2020-01-01' AS DATETIME) AS FechaInicioValidez
+			CAST('2020-01-01' AS DATETIME) AS FechaInicioValidez,
+			NULL as ID_Batch,
+			'RepuestosWeb' as ID_SourceSystem
 	FROM RepuestosWeb.dbo.Clientes C
 	
 	SELECT * FROM Dimension.Clientes
@@ -377,7 +391,9 @@ GO
 	 [PorcentajeDescuento], 
 	 [Total_Orden], 
 	 [Cantidad],  
-	 [NombreStatus]
+	 [NombreStatus],
+	 [ID_Batch],
+	 [ID_SourceSystem]
 	)
 	SELECT  --Columnas de mis dimensiones en DWH
 			SK_Partes, 
@@ -390,7 +406,10 @@ GO
 			D.PorcentajeDescuento, 
 			O.Total_Orden, 
 			Do.Cantidad,
-			SO.NombreStatus
+			SO.NombreStatus,
+			 --Columnas Linaje
+			NULL as ID_Batch,
+			'RepuestosWeb' as ID_SourceSystem
 				 
 	FROM RepuestosWeb.dbo.Orden O
 		INNER JOIN RepuestosWeb.dbo.StatusOrden SO ON(O.ID_StatusOrden = SO.ID_StatusOrden)
@@ -402,9 +421,12 @@ GO
 		INNER JOIN RepuestosWeb.dbo.Partes PA ON(DO.ID_Partes = PA.ID_Partes)
 
 		--Referencias a DWH
-		INNER JOIN Dimension.Partes DP ON(DP.ID_Partes = PA.ID_Partes)
-		INNER JOIN Dimension.Geografia DG ON(DG.ID_Geografia = C.ID_Ciudad)
-		INNER JOIN Dimension.Clientes DC ON(DC.ID_Cliente = O.ID_Cliente)
+		INNER JOIN Dimension.Partes DP ON(DP.ID_Partes = PA.ID_Partes and
+											O.Fecha_Orden BETWEEN DP.FechaInicioValidez AND ISNULL(DP.FechaFinValidez, '9999-12-31'))
+		INNER JOIN Dimension.Geografia DG ON(DG.ID_Geografia = C.ID_Ciudad  and
+											O.Fecha_Orden BETWEEN DG.FechaInicioValidez AND ISNULL(DG.FechaFinValidez, '9999-12-31'))
+		INNER JOIN Dimension.Clientes DC ON(DC.ID_Cliente = O.ID_Cliente  and
+											O.Fecha_Orden BETWEEN DC.FechaInicioValidez AND ISNULL(DC.FechaFinValidez, '9999-12-31'))
 		INNER JOIN Dimension.Fecha F ON(CAST((CAST(YEAR(O.Fecha_Orden) AS VARCHAR(4)))+left('0'+CAST(MONTH(O.Fecha_Orden) AS VARCHAR(4)),2)+left('0'+(CAST(DAY(O.Fecha_Orden) AS VARCHAR(4))),2) AS INT)  = F.DateKey);
 
 

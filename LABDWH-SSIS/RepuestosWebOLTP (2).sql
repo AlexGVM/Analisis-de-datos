@@ -120,7 +120,9 @@ CREATE TABLE Orden
 	ID_Ciudad INT NOT NULL REFERENCES Ciudad(ID_Ciudad),
 	ID_StatusOrden INT NOT NULL REFERENCES StatusOrden(ID_StatusOrden),
 	Total_Orden DECIMAL(12,2) NOT NULL,
-	Fecha_Orden DATETIME NOT NULL
+	Fecha_Orden DATETIME NOT NULL,
+	[FechaPrueba] [datetime] NULL,
+	[FechaModificacionSource] DATETIME NULL,
 )
 
 INSERT INTO Orden (ID_Cliente,ID_Ciudad,ID_StatusOrden,Total_Orden,Fecha_Orden) values(1,1,1,180.00,getdate())

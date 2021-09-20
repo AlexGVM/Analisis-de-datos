@@ -2,13 +2,18 @@
 <BuildLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <ProjectInfo>
     <Name>RepuestosWEBETL</Name>
-    <LastWriteTime>2021-09-20T04:13:42.520767Z</LastWriteTime>
+    <LastWriteTime>2021-09-20T18:17:58.9414011Z</LastWriteTime>
     <LastKnownProtectionLevel>EncryptSensitiveWithUserKey</LastKnownProtectionLevel>
   </ProjectInfo>
   <LastBuildInfos>
     <ProjectBuildItemInfo>
       <Name>Dimensiones_RepuestosWeb.dtsx</Name>
       <LastWriteTime>2021-09-20T04:29:28.4457213Z</LastWriteTime>
+      <LastKnownProtectionLevel>EncryptSensitiveWithUserKey</LastKnownProtectionLevel>
+    </ProjectBuildItemInfo>
+    <ProjectBuildItemInfo>
+      <Name>Hechos_RepuestosWeb.dtsx</Name>
+      <LastWriteTime>2021-09-20T18:19:46.4748553Z</LastWriteTime>
       <LastKnownProtectionLevel>EncryptSensitiveWithUserKey</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
   </LastBuildInfos>
