@@ -1,0 +1,82 @@
+﻿<DeploymentSnapshot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ddl2="http://schemas.microsoft.com/analysisservices/2003/engine/2" xmlns:ddl2_2="http://schemas.microsoft.com/analysisservices/2003/engine/2/2" xmlns:ddl100_100="http://schemas.microsoft.com/analysisservices/2008/engine/100/100" xmlns:ddl200="http://schemas.microsoft.com/analysisservices/2010/engine/200" xmlns:ddl200_200="http://schemas.microsoft.com/analysisservices/2010/engine/200/200" xmlns:ddl300="http://schemas.microsoft.com/analysisservices/2011/engine/300" xmlns:ddl300_300="http://schemas.microsoft.com/analysisservices/2011/engine/300/300" xmlns:ddl400="http://schemas.microsoft.com/analysisservices/2012/engine/400" xmlns:ddl400_400="http://schemas.microsoft.com/analysisservices/2012/engine/400/400" xmlns:ddl500="http://schemas.microsoft.com/analysisservices/2013/engine/500" xmlns:ddl500_500="http://schemas.microsoft.com/analysisservices/2013/engine/500/500" xmlns:dwd="http://schemas.microsoft.com/DataWarehouse/Designer/1.0">
+  <Target>
+    <Database>CuboRepuestos</Database>
+    <Server>LAPTOP-GSMNLECH\AD2C2021</Server>
+    <ConnectionString>Data Source=LAPTOP-GSMNLECH\AD2C2021;Timeout=0</ConnectionString>
+  </Target>
+  <Options>
+    <TransactionalDeployment>false</TransactionalDeployment>
+    <PartitionDeployment>DeployPartitions</PartitionDeployment>
+    <RoleDeployment>DeployRolesRetainMembers</RoleDeployment>
+    <ProcessingOption>DoNotProcess</ProcessingOption>
+    <OutputScript></OutputScript>
+    <ImpactAnalysisFile></ImpactAnalysisFile>
+    <ConfigurationSettingsDeployment>Deploy</ConfigurationSettingsDeployment>
+    <OptimizationSettingsDeployment>Deploy</OptimizationSettingsDeployment>
+    <WriteBackTableCreation>UseExisting</WriteBackTableCreation>
+  </Options>
+  <Snapshot>
+    <ObjectSnapshots>
+      <ObjectSnapshot>
+        <Type>Microsoft.AnalysisServices.RelationalDataSource</Type>
+        <TimeStamp>peo7jV+YdLCgTsyEY4SIPadIBZs=9/25/2021 6:16:26 PM9/25/2021 4:40:08 PM</TimeStamp>
+        <ID>
+          <String>Repuestos Web DWH</String>
+        </ID>
+      </ObjectSnapshot>
+      <ObjectSnapshot>
+        <Type>Microsoft.AnalysisServices.DataSourceView</Type>
+        <TimeStamp>uWzSRge5ZdMRrBLyX/2SolN9gnw=9/25/2021 5:23:45 PM9/25/2021 4:42:40 PM</TimeStamp>
+        <ID>
+          <String>Repuestos Web DWH</String>
+        </ID>
+      </ObjectSnapshot>
+      <ObjectSnapshot>
+        <Type>Microsoft.AnalysisServices.Dimension</Type>
+        <TimeStamp>g7NFJI78PzSBleu+qdq6qRaGhEY=9/25/2021 5:46:04 PM9/25/2021 5:44:36 PM</TimeStamp>
+        <ID>
+          <String>Geografia</String>
+        </ID>
+      </ObjectSnapshot>
+      <ObjectSnapshot>
+        <Type>Microsoft.AnalysisServices.Dimension</Type>
+        <TimeStamp>HrcXjX+4HA40dcBDTGTO5vywj+o=9/25/2021 6:08:48 PM9/25/2021 5:59:19 PM</TimeStamp>
+        <ID>
+          <String>Partes</String>
+        </ID>
+      </ObjectSnapshot>
+      <ObjectSnapshot>
+        <Type>Microsoft.AnalysisServices.Dimension</Type>
+        <TimeStamp>hOovzWnOLER1MEEHQx4nR6RH0eU=9/25/2021 6:10:05 PM9/25/2021 5:59:19 PM</TimeStamp>
+        <ID>
+          <String>Clientes</String>
+        </ID>
+      </ObjectSnapshot>
+      <ObjectSnapshot>
+        <Type>Microsoft.AnalysisServices.Dimension</Type>
+        <TimeStamp>S2McyYDNJr6OMo8dzoLkY3Q7zsY=9/25/2021 6:23:02 PM9/25/2021 6:18:14 PM</TimeStamp>
+        <ID>
+          <String>Fecha</String>
+        </ID>
+      </ObjectSnapshot>
+      <ObjectSnapshot>
+        <Type>Microsoft.AnalysisServices.Cube</Type>
+        <TimeStamp>qHjqDLK62OXhZbXvnUET0BopNTc=9/25/2021 7:01:45 PM9/25/2021 6:28:24 PMavvinqxbo+12ANUE7S9oN9Mpt2I=9/25/2021 6:28:24 PM9/25/2021 6:28:24 PM</TimeStamp>
+        <ID>
+          <String>Repuestos Web DWH</String>
+        </ID>
+      </ObjectSnapshot>
+    </ObjectSnapshots>
+    <DatabaseSnapshot>
+      <Type>Microsoft.AnalysisServices.Database</Type>
+      <TimeStamp>dMaTbuoY/4OS3DBHzZMp4NZhACU=9/25/2021 4:14:18 PM9/25/2021 4:14:18 PM</TimeStamp>
+      <ID>
+        <String>CuboRepuestos</String>
+      </ID>
+    </DatabaseSnapshot>
+    <Granularity>Coarse</Granularity>
+  </Snapshot>
+  <AssemblyLocations />
+  <ProcessingComplete>true</ProcessingComplete>
+  <LastDeployed>2021-09-26T03:27:58.633333Z</LastDeployed>
+</DeploymentSnapshot>
