@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31702.278
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{D2ABAB84-BF74-430A-B69E-9DC6D40DDA17}") = "CuboBI", "CuboBI\CuboBI.dwproj", "{B09E990D-C398-40DD-AE69-61199F2AE9C5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Development|Default = Development|Default
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B09E990D-C398-40DD-AE69-61199F2AE9C5}.Development|Default.ActiveCfg = Development
+		{B09E990D-C398-40DD-AE69-61199F2AE9C5}.Development|Default.Build.0 = Development
+		{B09E990D-C398-40DD-AE69-61199F2AE9C5}.Development|Default.Deploy.0 = Development
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E92AC71F-8A71-47E4-9EA2-5A946860FC24}
+	EndGlobalSection
+EndGlobal
