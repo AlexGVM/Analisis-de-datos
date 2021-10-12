@@ -2,7 +2,7 @@
 <BuildLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <ProjectInfo>
     <Name>RepuestosWEBETL</Name>
-    <LastWriteTime>2021-10-07T02:33:14.8521767Z</LastWriteTime>
+    <LastWriteTime>2021-10-07T18:40:32.5582911Z</LastWriteTime>
     <LastKnownProtectionLevel>EncryptSensitiveWithUserKey</LastKnownProtectionLevel>
   </ProjectInfo>
   <LastBuildInfos>
@@ -13,7 +13,12 @@
     </ProjectBuildItemInfo>
     <ProjectBuildItemInfo>
       <Name>Hechos_RepuestosWeb.dtsx</Name>
-      <LastWriteTime>2021-09-20T18:19:48Z</LastWriteTime>
+      <LastWriteTime>2021-10-07T18:33:18.866432Z</LastWriteTime>
+      <LastKnownProtectionLevel>EncryptSensitiveWithUserKey</LastKnownProtectionLevel>
+    </ProjectBuildItemInfo>
+    <ProjectBuildItemInfo>
+      <Name>ETLCubo.dtsx</Name>
+      <LastWriteTime>2021-10-07T18:40:32.4824936Z</LastWriteTime>
       <LastKnownProtectionLevel>EncryptSensitiveWithUserKey</LastKnownProtectionLevel>
     </ProjectBuildItemInfo>
   </LastBuildInfos>

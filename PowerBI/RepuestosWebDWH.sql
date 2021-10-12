@@ -92,7 +92,16 @@ GO
 		ID_Batch UNIQUEIDENTIFIER NULL,
 		ID_SourceSystem VARCHAR(20),
 		[FechaInicioValidez] DATETIME NOT NULL DEFAULT(GETDATE()),
-		[FechaFinValidez] DATETIME NULL
+		[FechaFinValidez] DATETIME NULL,
+
+
+	--Columnas Auditoria
+	FechaCreacion DATETIME NOT NULL DEFAULT(GETDATE()),
+	UsuarioCreacion NVARCHAR(100) NOT NULL DEFAULT(SUSER_NAME()),
+	FechaModificacion DATETIME NULL,
+	UsuarioModificacion NVARCHAR(100) NULL,
+
+	
 		
 	)
 	GO
@@ -103,7 +112,17 @@ GO
 		ID_Batch UNIQUEIDENTIFIER NULL,
 		ID_SourceSystem VARCHAR(20),
 		[FechaInicioValidez] DATETIME NOT NULL DEFAULT(GETDATE()),
-		[FechaFinValidez] DATETIME NULL
+		[FechaFinValidez] DATETIME NULL,
+		--Columnas SCD Tipo 2
+
+	--Columnas Auditoria
+	FechaCreacion DATETIME NOT NULL DEFAULT(GETDATE()),
+	UsuarioCreacion NVARCHAR(100) NOT NULL DEFAULT(SUSER_NAME()),
+	FechaModificacion DATETIME NULL,
+	UsuarioModificacion NVARCHAR(100) NULL,
+	--Columnas Linaje
+
+	
 
 	)
 	GO
@@ -114,7 +133,17 @@ GO
 		ID_Batch UNIQUEIDENTIFIER NULL,
 		ID_SourceSystem VARCHAR(20),
 		[FechaInicioValidez] DATETIME NOT NULL DEFAULT(GETDATE()),
-		[FechaFinValidez] DATETIME NULL
+		[FechaFinValidez] DATETIME NULL,
+		--Columnas SCD Tipo 2
+
+	--Columnas Auditoria
+	FechaCreacion DATETIME NOT NULL DEFAULT(GETDATE()),
+	UsuarioCreacion NVARCHAR(100) NOT NULL DEFAULT(SUSER_NAME()),
+	FechaModificacion DATETIME NULL,
+	UsuarioModificacion NVARCHAR(100) NULL,
+	--Columnas Linaje
+
+	
 
 	)
 	GO
@@ -134,8 +163,20 @@ GO
 		SK_Geografia [UDT_SK] REFERENCES Dimension.Geografia(SK_Geografia),
 		SK_Clientes [UDT_SK] REFERENCES Dimension.Clientes(SK_Clientes),
 		DateKey INT REFERENCES Dimension.Fecha(DateKey),
-		ID_Batch UNIQUEIDENTIFIER NULL,
-		ID_SourceSystem VARCHAR(20)	
+
+	--Columnas SCD Tipo 2
+	[FechaInicioValidez] DATETIME NULL DEFAULT(GETDATE()),
+	[FechaFinValidez] DATETIME NULL,
+	--Columnas Auditoria
+	FechaCreacion DATETIME NOT NULL DEFAULT(GETDATE()),
+	UsuarioCreacion NVARCHAR(100) NOT NULL DEFAULT(SUSER_NAME()),
+	FechaModificacion DATETIME NULL,
+	UsuarioModificacion NVARCHAR(100) NULL,
+	--Columnas Linaje
+	ID_Batch UNIQUEIDENTIFIER NULL,
+	ID_SourceSystem VARCHAR(50)
+	
+
 	)
 
 --Metadata
@@ -198,8 +239,7 @@ GO
 	ALTER TABLE Fact.Orden ADD Total_Orden [UDT_Decimal12.2]
 	ALTER TABLE Fact.Orden ADD Cantidad [UDT_INT]
 	ALTER TABLE Fact.Orden ADD NombreStatus [UDT_VarcharMediano]
-	ALTER TABLE Fact.Orden ADD [FechaPrueba] DATETIME NULL
-	ALTER TABLE Fact.Orden ADD [FechaModificacionSource] DATETIME NULL
+	ALTER TABLE Fact.Orden ADD [Fecha_Orden] DATETIME NULL
 
 	--DimFecha	
 	ALTER TABLE Dimension.Fecha ADD [Date] DATE NOT NULL
@@ -385,6 +425,10 @@ GO
 	 [SK_Geografia],
 	 [SK_Clientes],
 	 [DateKey], 
+	 [FechaCreacion],
+	 [UsuarioCreacion],
+	 [FechaModificacion],
+	 [UsuarioModificacion],
 	 [ID_Orden], 
 	 [ID_Descuento], 	
 	 [NombreDescuento], 
@@ -395,11 +439,16 @@ GO
 	 [ID_Batch],
 	 [ID_SourceSystem]
 	)
+
 	SELECT  --Columnas de mis dimensiones en DWH
-			SK_Partes, 
-			SK_Geografia,
-			SK_Clientes,
+			DP.SK_Partes, 
+			DG.SK_Geografia,
+			DC.SK_Clientes,
 			F.DateKey, 
+			getdate() as FechaCreacion,
+			SUSER_NAME() as UsuarioCreacion,
+			NULL as FechaModificacion,
+			NULL as UsuarioModificacion,
 			O.ID_Orden, 
 			D.ID_Descuento, 			
 			D.NombreDescuento, 
@@ -418,10 +467,48 @@ GO
 		INNER JOIN RepuestosWeb.dbo.Ciudad C ON(O.ID_Ciudad = C.ID_Ciudad)
 		INNER JOIN RepuestosWeb.dbo.Region R ON(C.ID_Region = R.ID_Region)
 		INNER JOIN RepuestosWeb.dbo.Pais P ON(R.ID_Pais = P.ID_Pais)
-		INNER JOIN RepuestosWeb.dbo.Partes PA ON(DO.ID_Partes = PA.ID_Partes)
+		INNER JOIN RepuestosWeb.dbo.Partes PA ON(DO.ID_Parte = PA.ID_Parte)
 
 		--Referencias a DWH
-		INNER JOIN Dimension.Partes DP ON(DP.ID_Partes = PA.ID_Partes and
+		INNER JOIN Dimension.Partes DP ON(DP.ID_Partes = PA.ID_Parte )
+											
+		INNER JOIN Dimension.Geografia DG ON(DG.ID_Geografia = C.ID_Ciudad  )
+		INNER JOIN Dimension.Clientes DC ON(DC.ID_Cliente = O.ID_Cliente)
+		INNER JOIN Dimension.Fecha F ON(CAST((CAST(YEAR(O.Fecha_Orden) AS VARCHAR(4)))+left('0'+CAST(MONTH(O.Fecha_Orden) AS VARCHAR(4)),2)+left('0'+(CAST(DAY(O.Fecha_Orden) AS VARCHAR(4))),2) AS INT)  = F.DateKey);
+
+		/*
+
+			SELECT  --Columnas de mis dimensiones en DWH
+			DP.SK_Partes, 
+			DG.SK_Geografia,
+			DC.SK_Clientes,
+			F.DateKey, 
+			getdate() as FechaCreacion,
+			'ETL' as UsuarioCreacion,
+			NULL as FechaModificacion,
+			NULL as UsuarioModificacion,
+			O.ID_Orden, 
+			D.ID_Descuento, 			
+			D.NombreDescuento, 
+			D.PorcentajeDescuento, 
+			O.Total_Orden, 
+			Do.Cantidad,
+			SO.NombreStatus,
+			 --Columnas Linaje
+			NULL as ID_Batch,
+			'RepuestosWeb' as ID_SourceSystem
+				 
+	FROM RepuestosWeb.dbo.Orden O
+		INNER JOIN RepuestosWeb.dbo.StatusOrden SO ON(O.ID_StatusOrden = SO.ID_StatusOrden)
+		INNER JOIN RepuestosWeb.dbo.Detalle_orden DO ON(O.ID_Orden = DO.ID_Orden)
+		INNER JOIN RepuestosWeb.dbo.Descuento D ON(D.ID_Descuento = DO.ID_Descuento)
+		INNER JOIN RepuestosWeb.dbo.Ciudad C ON(O.ID_Ciudad = C.ID_Ciudad)
+		INNER JOIN RepuestosWeb.dbo.Region R ON(C.ID_Region = R.ID_Region)
+		INNER JOIN RepuestosWeb.dbo.Pais P ON(R.ID_Pais = P.ID_Pais)
+		INNER JOIN RepuestosWeb.dbo.Partes PA ON(DO.ID_Parte = PA.ID_Parte)
+
+		--Referencias a DWH
+		INNER JOIN Dimension.Partes DP ON(DP.ID_Partes = PA.ID_Parte and
 											O.Fecha_Orden BETWEEN DP.FechaInicioValidez AND ISNULL(DP.FechaFinValidez, '9999-12-31'))
 		INNER JOIN Dimension.Geografia DG ON(DG.ID_Geografia = C.ID_Ciudad  and
 											O.Fecha_Orden BETWEEN DG.FechaInicioValidez AND ISNULL(DG.FechaFinValidez, '9999-12-31'))
@@ -429,7 +516,8 @@ GO
 											O.Fecha_Orden BETWEEN DC.FechaInicioValidez AND ISNULL(DC.FechaFinValidez, '9999-12-31'))
 		INNER JOIN Dimension.Fecha F ON(CAST((CAST(YEAR(O.Fecha_Orden) AS VARCHAR(4)))+left('0'+CAST(MONTH(O.Fecha_Orden) AS VARCHAR(4)),2)+left('0'+(CAST(DAY(O.Fecha_Orden) AS VARCHAR(4))),2) AS INT)  = F.DateKey);
 
-
+		*/
+	
 --------------------------------------------------------------------------------------------
 ------------------------------------Resultado Final-----------------------------------------
 --------------------------------------------------------------------------------------------	
@@ -440,3 +528,9 @@ GO
 			Dimension.Geografia AS CA ON O.SK_Geografia = CA.SK_Geografia INNER JOIN
 			Dimension.Clientes AS DC ON O.SK_Clientes = DC.SK_Clientes INNER JOIN
 			Dimension.Fecha AS F ON O.DateKey = F.DateKey
+
+	select *
+	from Dimension.Partes
+
+	select *
+	from Fact.Orden

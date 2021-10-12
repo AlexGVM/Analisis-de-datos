@@ -29,17 +29,15 @@ GO
 CREATE TABLE [staging].[Orden](
 	[ID_Orden] [int] NOT NULL,
 	[ID_Descuento] [int] NOT NULL,
-	[ID_Partes] [int] NOT NULL,
+	[ID_Partes] [varchar](100) NOT NULL,
 	[ID_Clientes] [int] NOT NULL,
 	[ID_Geografia][int] NOT NULL,
 	[NombreDescuento] [varchar](300) NOT NULL,
 	[PorcentajeDescuento] [decimal](6, 2) NULL,
-	[Total_Orden] [int] NULL,
+	[Total_Orden] [decimal](12, 2) NULL,
 	[Cantidad] [int] NULL,
 	[NombreStatus] [varchar](300) NULL,
-	[Fecha_Orden] [datetime] NULL,
-	[FechaPrueba] [datetime] NULL,
-	[FechaModificacionSource] DATETIME NULL,
+	[Fecha_Orden] [datetime] NULL
 
 ) ON [PRIMARY]
 GO
@@ -47,7 +45,7 @@ GO
 --Query para llenar datos en Staging
 SELECT O.ID_Orden,
 	   DO.ID_Descuento,
-	   P.ID_Partes,
+	   P.ID_Parte,
 	   C.ID_Cliente,
 	   CU.ID_Ciudad as ID_Geografia,
 	   D.NombreDescuento,
@@ -55,17 +53,16 @@ SELECT O.ID_Orden,
 	   O.Total_Orden,
 	   DO.Cantidad,
 	   SO.NombreStatus,
-	   O.Fecha_Orden,
-	   O.FechaPrueba,
-	   o.FechaModificacionSource
+	   O.Fecha_Orden
+
 FROM dbo.Orden O
      INNER JOIN dbo.Detalle_orden DO ON(O.ID_Orden = DO.ID_Orden)
-	 INNER JOIN dbo.Partes P ON (DO.ID_Partes = P.ID_Partes)
+	 INNER JOIN dbo.Partes P ON (DO.ID_Parte = P.ID_Parte)
 	 INNER JOIN dbo.StatusOrden SO ON (O.ID_StatusOrden = SO.ID_StatusOrden)
 	 INNER JOIN dbo.Clientes C ON (O.ID_Cliente = C.ID_Cliente)
 	 INNER JOIN dbo.Ciudad CU ON (O.ID_Ciudad = CU.ID_Ciudad)
      LEFT JOIN DBO.Descuento D ON(DO.ID_Descuento = D.ID_Descuento)
-WHERE ((FechaPrueba>?) OR (FechaModificacionSource>?))
+WHERE ((Fecha_Orden>?))
 go
 
 --Script de SP para MERGE
@@ -141,3 +138,5 @@ where	c.ID_Cliente = 1
 
 select *
 from RepuestosWeb_DWH.dbo.FactLog
+
+

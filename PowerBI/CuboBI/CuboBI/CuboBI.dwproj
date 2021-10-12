@@ -35,6 +35,10 @@
       <Name>Geografia.dim</Name>
       <FullPath>Geografia.dim</FullPath>
     </ProjectItem>
+    <ProjectItem>
+      <Name>Orden.dim</Name>
+      <FullPath>Orden.dim</FullPath>
+    </ProjectItem>
   </Dimensions>
   <DataSources>
     <ProjectItem>

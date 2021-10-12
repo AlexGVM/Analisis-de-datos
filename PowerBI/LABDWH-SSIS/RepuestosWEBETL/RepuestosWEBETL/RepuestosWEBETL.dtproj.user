@@ -8,6 +8,8 @@
         <UseWinAuth>false</UseWinAuth>
         <WinAuthUserName />
         <WinAuthDomain />
+        <ServerName>DESKTOP-BOSK4NH\AD2C2021</ServerName>
+        <PathOnServer>/SSISDB/Dimensiones/RepuestosWEBETL</PathOnServer>
         <StartObjectID>Hechos_RepuestosWeb.dtsx</StartObjectID>
         <UserIDs />
         <UserPasswords />

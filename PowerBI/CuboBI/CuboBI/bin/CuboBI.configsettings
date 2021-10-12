@@ -24,6 +24,9 @@
       <Dimension>
         <ID>Geografia</ID>
       </Dimension>
+      <Dimension>
+        <ID>Orden</ID>
+      </Dimension>
     </Dimensions>
     <Cubes>
       <Cube>
