@@ -1,0 +1,28 @@
+{
+    "id": "8E881A8C",
+    "path": null,
+    "project_path": null,
+    "type": "object_explorer",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1636319004025.0,
+    "source_on_save": false,
+    "relative_order": 3,
+    "properties": {
+        "id": "18a30cc4e93e4e25a4d7559d5ec2d61e",
+        "name": "txn",
+        "title": "txn",
+        "language": "R",
+        "source_window_id": "",
+        "Source": "Source"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 2360010640680,
+    "encoding": "",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1636319004025,
+    "read_only": false,
+    "read_only_alternatives": []
+}
