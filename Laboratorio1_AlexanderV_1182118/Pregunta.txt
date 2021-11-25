@@ -1,0 +1,4 @@
+Corra los scripts de comparación de “Admisiones vs AdmisionesDWH” y muestre los resultados,
+¿Cuál es mejor?
+
+La base de datos AdmisionesDWH, el data warehouse es más eficiente, se ejecuta en menos tiempo.
